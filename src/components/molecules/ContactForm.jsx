@@ -98,8 +98,8 @@ const ContactForm = ({ contact, onSave, onCancel }) => {
     }
   };
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+return (
+    <form onSubmit={handleSubmit} className="space-y-6 pb-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input
           label="Full Name"
