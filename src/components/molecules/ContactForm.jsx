@@ -48,25 +48,25 @@ setFormData({
     }
   };
 
-  const validateForm = () => {
+const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
+    if (!formData.name_c.trim()) {
+      newErrors.name_c = "Name is required";
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid";
+    if (!formData.email_c.trim()) {
+      newErrors.email_c = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email_c)) {
+      newErrors.email_c = "Email is invalid";
     }
 
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone is required";
+    if (!formData.phone_c.trim()) {
+      newErrors.phone_c = "Phone is required";
     }
 
-    if (!formData.company.trim()) {
-      newErrors.company = "Company is required";
+    if (!formData.company_c.trim()) {
+      newErrors.company_c = "Company is required";
     }
 
     setErrors(newErrors);
@@ -103,60 +103,60 @@ return (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input
           label="Full Name"
-          name="name"
-          value={formData.name}
+name="name_c"
+          value={formData.name_c}
           onChange={handleChange}
-          error={errors.name}
+          error={errors.name_c}
           placeholder="Enter full name"
           required
         />
 
         <Input
           label="Email"
-          name="email"
+name="email_c"
           type="email"
-          value={formData.email}
+          value={formData.email_c}
           onChange={handleChange}
-          error={errors.email}
+          error={errors.email_c}
           placeholder="Enter email address"
           required
         />
 
         <Input
           label="Phone"
-          name="phone"
+name="phone_c"
           type="tel"
-          value={formData.phone}
+          value={formData.phone_c}
           onChange={handleChange}
-          error={errors.phone}
+          error={errors.phone_c}
           placeholder="Enter phone number"
           required
         />
 
         <Input
           label="Company"
-          name="company"
-          value={formData.company}
+name="company_c"
+          value={formData.company_c}
           onChange={handleChange}
-          error={errors.company}
+          error={errors.company_c}
           placeholder="Enter company name"
           required
         />
 
         <Input
-          label="Tags"
-          name="tags"
-          value={formData.tags}
+label="Tags"
+          name="tags_c"
+          value={formData.tags_c}
           onChange={handleChange}
           placeholder="Enter tags separated by commas"
           className="md:col-span-2"
         />
 
         <Input
-          label="Photo URL"
-          name="photoUrl"
+label="Photo URL"
+          name="photo_url_c"
           type="url"
-          value={formData.photoUrl}
+          value={formData.photo_url_c}
           onChange={handleChange}
           placeholder="Enter photo URL (optional)"
           className="md:col-span-2"
@@ -168,8 +168,8 @@ return (
           Notes
         </label>
         <textarea
-          name="notes"
-          value={formData.notes}
+name="notes_c"
+          value={formData.notes_c}
           onChange={handleChange}
           rows={4}
           className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
