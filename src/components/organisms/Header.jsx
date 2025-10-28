@@ -3,12 +3,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import SearchBar from "@/components/molecules/SearchBar";
+import { useAuth } from "@/layouts/Root";
 
 const Header = ({ onSearch, searchValue, onAddContact, onAddDeal, onToggleFilters }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const isContactsPage = location.pathname === "/" || location.pathname === "/contacts";
   const isPipelinePage = location.pathname === "/pipeline";
 
@@ -77,7 +78,7 @@ const Header = ({ onSearch, searchValue, onAddContact, onAddDeal, onToggleFilter
             />
           </div>
 
-          {/* Action Buttons */}
+{/* Action Buttons */}
           <div className="flex items-center space-x-3">
             {/* Filter Toggle */}
             {isContactsPage && onToggleFilters && (
@@ -117,6 +118,17 @@ const Header = ({ onSearch, searchValue, onAddContact, onAddDeal, onToggleFilter
               </Button>
             )}
 
+            {/* Logout Button */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={logout}
+              className="hidden sm:flex"
+            >
+              <ApperIcon name="LogOut" className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
@@ -138,7 +150,7 @@ const Header = ({ onSearch, searchValue, onAddContact, onAddDeal, onToggleFilter
           />
         </div>
 
-        {/* Mobile Navigation */}
+{/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="md:hidden pb-4 border-t border-gray-200">
             <div className="pt-4 space-y-2">
@@ -191,6 +203,19 @@ const Header = ({ onSearch, searchValue, onAddContact, onAddDeal, onToggleFilter
                   </Button>
                 )}
 
+                {/* Mobile Logout Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    logout();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full justify-center"
+                >
+                  <ApperIcon name="LogOut" className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
                 {isContactsPage && onToggleFilters && (
                   <Button
                     variant="outline"

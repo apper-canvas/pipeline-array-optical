@@ -78,7 +78,7 @@ const ContactDetailModal = ({ isOpen, onClose, contact, onEdit, onCreateDeal }) 
 
   if (!contact) return null;
 
-  return (
+return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
@@ -90,20 +90,20 @@ const ContactDetailModal = ({ isOpen, onClose, contact, onEdit, onCreateDeal }) 
         {/* Header */}
         <div className="flex items-center space-x-4 mb-6 pb-6 border-b border-gray-200">
           <Avatar
-            src={contact.photoUrl}
-            name={contact.name}
+            src={contact.photo_url_c}
+            name={contact.name_c}
             size="xl"
           />
           <div className="flex-1 min-w-0">
             <h2 className="text-2xl font-bold text-gray-900 truncate">
-              {contact.name}
+              {contact.name_c}
             </h2>
-            <p className="text-lg text-gray-600">{contact.company}</p>
-            {contact.tags && contact.tags.length > 0 && (
+            <p className="text-lg text-gray-600">{contact.company_c}</p>
+            {contact.tags_c && (
               <div className="flex flex-wrap gap-2 mt-2">
-                {contact.tags.map((tag, index) => (
+                {contact.tags_c.split(',').map((tag, index) => (
                   <Badge key={index} variant="primary" size="sm">
-                    {tag}
+                    {tag.trim()}
                   </Badge>
                 ))}
               </div>
@@ -151,7 +151,7 @@ const ContactDetailModal = ({ isOpen, onClose, contact, onEdit, onCreateDeal }) 
 
         {/* Tab Content */}
         <div className="flex-1 overflow-y-auto">
-          {activeTab === "info" && (
+{activeTab === "info" && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
@@ -159,7 +159,7 @@ const ContactDetailModal = ({ isOpen, onClose, contact, onEdit, onCreateDeal }) 
                     <label className="text-sm font-medium text-gray-500">Email</label>
                     <div className="flex items-center mt-1">
                       <ApperIcon name="Mail" className="w-4 h-4 text-gray-400 mr-2" />
-                      <span className="text-gray-900">{contact.email}</span>
+                      <span className="text-gray-900">{contact.email_c}</span>
                     </div>
                   </div>
                   
@@ -167,7 +167,7 @@ const ContactDetailModal = ({ isOpen, onClose, contact, onEdit, onCreateDeal }) 
                     <label className="text-sm font-medium text-gray-500">Phone</label>
                     <div className="flex items-center mt-1">
                       <ApperIcon name="Phone" className="w-4 h-4 text-gray-400 mr-2" />
-                      <span className="text-gray-900">{contact.phone}</span>
+                      <span className="text-gray-900">{contact.phone_c}</span>
                     </div>
                   </div>
                 </div>
@@ -177,7 +177,7 @@ const ContactDetailModal = ({ isOpen, onClose, contact, onEdit, onCreateDeal }) 
                     <label className="text-sm font-medium text-gray-500">Company</label>
                     <div className="flex items-center mt-1">
                       <ApperIcon name="Building" className="w-4 h-4 text-gray-400 mr-2" />
-                      <span className="text-gray-900">{contact.company}</span>
+                      <span className="text-gray-900">{contact.company_c}</span>
                     </div>
                   </div>
                   
@@ -186,23 +186,23 @@ const ContactDetailModal = ({ isOpen, onClose, contact, onEdit, onCreateDeal }) 
                     <div className="flex items-center mt-1">
                       <ApperIcon name="Calendar" className="w-4 h-4 text-gray-400 mr-2" />
                       <span className="text-gray-900">
-                        {format(new Date(contact.createdAt), "MMM dd, yyyy")}
+                        {format(new Date(contact.CreatedOn), "MMM dd, yyyy")}
                       </span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {contact.notes && (
+              {contact.notes_c && (
                 <div>
                   <label className="text-sm font-medium text-gray-500">Notes</label>
-                  <p className="mt-1 text-gray-900 whitespace-pre-wrap">{contact.notes}</p>
+                  <p className="mt-1 text-gray-900 whitespace-pre-wrap">{contact.notes_c}</p>
                 </div>
               )}
             </div>
           )}
 
-          {activeTab === "deals" && (
+{activeTab === "deals" && (
             <div className="space-y-4">
               {loading ? (
                 <div className="text-center py-8">
@@ -212,21 +212,21 @@ const ContactDetailModal = ({ isOpen, onClose, contact, onEdit, onCreateDeal }) 
                 contactDeals.map((deal) => (
                   <div key={deal.Id} className="bg-gray-50 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-semibold text-gray-900">{deal.name}</h4>
+                      <h4 className="font-semibold text-gray-900">{deal.name_c}</h4>
                       <Badge variant="primary" size="sm">
-                        {deal.stage}
+                        {deal.stage_c}
                       </Badge>
                     </div>
                     <div className="flex items-center justify-between text-sm text-gray-600">
                       <span className="font-semibold text-success-600">
-                        {formatCurrency(deal.value)}
+                        {formatCurrency(deal.value_c)}
                       </span>
                       <span>
-                        Updated {format(new Date(deal.updatedAt), "MMM dd, yyyy")}
+                        Updated {format(new Date(deal.ModifiedOn), "MMM dd, yyyy")}
                       </span>
                     </div>
-                    {deal.notes && (
-                      <p className="mt-2 text-sm text-gray-700">{deal.notes}</p>
+                    {deal.notes_c && (
+                      <p className="mt-2 text-sm text-gray-700">{deal.notes_c}</p>
                     )}
                   </div>
                 ))
@@ -247,7 +247,7 @@ const ContactDetailModal = ({ isOpen, onClose, contact, onEdit, onCreateDeal }) 
             </div>
           )}
 
-          {activeTab === "activities" && (
+{activeTab === "activities" && (
             <div className="space-y-4">
               {loading ? (
                 <div className="text-center py-8">
@@ -257,15 +257,15 @@ const ContactDetailModal = ({ isOpen, onClose, contact, onEdit, onCreateDeal }) 
                 <div className="space-y-4">
                   {contactActivities.map((activity) => (
                     <div key={activity.Id} className="flex space-x-3">
-                      <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${getActivityColor(activity.type)} bg-gray-100`}>
-                        <ApperIcon name={getActivityIcon(activity.type)} className="w-4 h-4" />
+                      <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${getActivityColor(activity.type_c)} bg-gray-100`}>
+                        <ApperIcon name={getActivityIcon(activity.type_c)} className="w-4 h-4" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm text-gray-900">
-                          {activity.description}
+                          {activity.description_c}
                         </p>
                         <p className="text-xs text-gray-500">
-                          {format(new Date(activity.date), "MMM dd, yyyy 'at' h:mm a")}
+                          {format(new Date(activity.date_c), "MMM dd, yyyy 'at' h:mm a")}
                         </p>
                       </div>
                     </div>

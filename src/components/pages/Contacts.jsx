@@ -58,31 +58,33 @@ const Contacts = () => {
   };
 
   // Filter and search logic
-  const filteredContacts = useMemo(() => {
+const filteredContacts = useMemo(() => {
     let result = contacts;
 
     // Apply search filter
     if (searchTerm.trim()) {
       const search = searchTerm.toLowerCase();
       result = result.filter(contact => 
-        contact.name.toLowerCase().includes(search) ||
-        contact.email.toLowerCase().includes(search) ||
-        contact.company.toLowerCase().includes(search) ||
-        (contact.tags && contact.tags.some(tag => tag.toLowerCase().includes(search)))
+        (contact.name_c && contact.name_c.toLowerCase().includes(search)) ||
+        (contact.email_c && contact.email_c.toLowerCase().includes(search)) ||
+        (contact.company_c && contact.company_c.toLowerCase().includes(search)) ||
+        (contact.tags_c && contact.tags_c.toLowerCase().includes(search))
       );
     }
 
     // Apply tag filter
     if (filters.tags.length > 0) {
-      result = result.filter(contact => 
-        contact.tags && filters.tags.some(tag => contact.tags.includes(tag))
-      );
+      result = result.filter(contact => {
+        if (!contact.tags_c) return false;
+        const contactTags = contact.tags_c.split(',').map(t => t.trim());
+        return filters.tags.some(tag => contactTags.includes(tag));
+      });
     }
 
     // Apply company filter
     if (filters.companies.length > 0) {
       result = result.filter(contact => 
-        filters.companies.includes(contact.company)
+        contact.company_c && filters.companies.includes(contact.company_c)
       );
     }
 
@@ -90,11 +92,11 @@ const Contacts = () => {
   }, [contacts, searchTerm, filters]);
 
   // Get unique values for filters
-  const availableTags = useMemo(() => {
+const availableTags = useMemo(() => {
     const tags = new Set();
     contacts.forEach(contact => {
-      if (contact.tags) {
-        contact.tags.forEach(tag => tags.add(tag));
+      if (contact.tags_c) {
+        contact.tags_c.split(',').forEach(tag => tags.add(tag.trim()));
       }
     });
     return Array.from(tags).sort();
@@ -103,8 +105,8 @@ const Contacts = () => {
   const availableCompanies = useMemo(() => {
     const companies = new Set();
     contacts.forEach(contact => {
-      if (contact.company) {
-        companies.add(contact.company);
+      if (contact.company_c) {
+        companies.add(contact.company_c);
       }
     });
     return Array.from(companies).sort();
@@ -175,11 +177,11 @@ const Contacts = () => {
     }
   };
 
-  const handleSaveDeal = async (dealData) => {
+const handleSaveDeal = async (dealData) => {
     try {
       const newDeal = await dealsService.create({
         ...dealData,
-        contactId: selectedContact.Id
+        contact_id_c: selectedContact.Id
       });
       setShowCreateDealModal(false);
       setSelectedContact(null);
@@ -280,7 +282,7 @@ const Contacts = () => {
       </main>
 
       {/* Modals */}
-      <Modal
+<Modal
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
         title="Add New Contact"
@@ -324,7 +326,7 @@ const Contacts = () => {
             Delete Contact
           </h3>
           <p className="text-gray-600 mb-6">
-            Are you sure you want to delete "{selectedContact?.name}"? This action cannot be undone.
+            Are you sure you want to delete "{selectedContact?.name_c}"? This action cannot be undone.
           </p>
           <div className="flex justify-center space-x-3">
             <Button
@@ -347,7 +349,7 @@ const Contacts = () => {
         <Modal
           isOpen={showCreateDealModal}
           onClose={() => setShowCreateDealModal(false)}
-          title={`Create Deal for ${selectedContact.name}`}
+          title={`Create Deal for ${selectedContact.name_c}`}
           size="lg"
         >
           <DealForm

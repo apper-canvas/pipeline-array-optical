@@ -70,17 +70,17 @@ const DealCard = ({
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1 min-w-0">
           <h4 className="font-semibold text-gray-900 text-sm truncate mb-1">
-            {deal.name}
+{deal.name_c}
           </h4>
           {contact && (
             <div className="flex items-center space-x-2">
               <Avatar
-                src={contact.photoUrl}
-                name={contact.name}
+                src={contact.photo_url_c}
+                name={contact.name_c}
                 size="sm"
               />
               <span className="text-xs text-gray-600 truncate">
-                {contact.name}
+                {contact.name_c}
               </span>
             </div>
           )}
@@ -111,34 +111,34 @@ const DealCard = ({
       {/* Deal Value */}
       <div className="mb-3">
         <div className="text-xl font-bold text-success-600">
-          {formatCurrency(deal.value)}
+{formatCurrency(deal.value_c)}
         </div>
-        {deal.probability && (
+        {deal.probability_c && (
           <div className="text-xs text-gray-500">
-            {deal.probability}% probability
+            {deal.probability_c}% probability
           </div>
         )}
       </div>
 
       {/* Deal Info */}
       <div className="space-y-2">
-        {deal.expectedCloseDate && (
+{deal.expected_close_date_c && (
           <div className="flex items-center text-xs text-gray-600">
             <ApperIcon name="Calendar" className="w-3 h-3 mr-1" />
-            <span>Close: {format(new Date(deal.expectedCloseDate), "MMM dd")}</span>
+            <span>Close: {format(new Date(deal.expected_close_date_c), "MMM dd")}</span>
           </div>
         )}
-        
+
         <div className="flex items-center text-xs text-gray-600">
           <ApperIcon name="Clock" className="w-3 h-3 mr-1" />
-          <span>Updated {format(new Date(deal.updatedAt), "MMM dd")}</span>
+          <span>Updated {format(new Date(deal.ModifiedOn), "MMM dd")}</span>
         </div>
       </div>
 
       {/* Stage Badge */}
       <div className="mt-3 pt-3 border-t border-gray-100">
-        <Badge variant={getStageColor(deal.stage)} size="sm" className="w-full justify-center">
-          {deal.stage}
+<Badge variant={getStageColor(deal.stage_c)} size="sm" className="w-full justify-center">
+          {deal.stage_c}
         </Badge>
       </div>
     </motion.div>

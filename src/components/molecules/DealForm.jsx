@@ -6,14 +6,14 @@ import { toast } from "react-toastify";
 import { format } from "date-fns";
 
 const DealForm = ({ deal, contacts = [], onSave, onCancel }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    contactId: "",
-    value: "",
-    stage: "Lead",
-    probability: "",
-    expectedCloseDate: "",
-    notes: ""
+const [formData, setFormData] = useState({
+    name_c: "",
+    contact_id_c: "",
+    value_c: "",
+    stage_c: "Lead",
+    probability_c: "",
+    expected_close_date_c: "",
+    notes_c: ""
   });
   
   const [errors, setErrors] = useState({});
@@ -30,14 +30,17 @@ const DealForm = ({ deal, contacts = [], onSave, onCancel }) => {
 
   useEffect(() => {
     if (deal) {
+// Handle lookup field - contact_id_c could be integer or object
+      const contactId = typeof deal.contact_id_c === 'object' ? deal.contact_id_c.Id : deal.contact_id_c;
+      
       setFormData({
-        name: deal.name || "",
-        contactId: deal.contactId || "",
-        value: deal.value || "",
-        stage: deal.stage || "Lead",
-        probability: deal.probability || "",
-        expectedCloseDate: deal.expectedCloseDate ? format(new Date(deal.expectedCloseDate), "yyyy-MM-dd") : "",
-        notes: deal.notes || ""
+        name_c: deal.name_c || "",
+        contact_id_c: contactId || "",
+        value_c: deal.value_c || "",
+        stage_c: deal.stage_c || "Lead",
+        probability_c: deal.probability_c || "",
+        expected_close_date_c: deal.expected_close_date_c ? format(new Date(deal.expected_close_date_c), "yyyy-MM-dd") : "",
+        notes_c: deal.notes_c || ""
       });
     }
   }, [deal]);
@@ -92,11 +95,12 @@ const DealForm = ({ deal, contacts = [], onSave, onCancel }) => {
     setIsSubmitting(true);
 
     try {
-      const dealData = {
+const dealData = {
         ...formData,
-        value: parseFloat(formData.value),
-        probability: formData.probability ? parseInt(formData.probability) : null,
-        expectedCloseDate: formData.expectedCloseDate || null
+        value_c: parseFloat(formData.value_c),
+        probability_c: formData.probability_c ? parseInt(formData.probability_c) : null,
+        expected_close_date_c: formData.expected_close_date_c || null,
+        contact_id_c: parseInt(formData.contact_id_c)
       };
 
       await onSave(dealData);
@@ -132,8 +136,8 @@ const DealForm = ({ deal, contacts = [], onSave, onCancel }) => {
         >
           <option value="">Select a contact</option>
           {contacts.map(contact => (
-            <option key={contact.Id} value={contact.Id}>
-              {contact.name} - {contact.company}
+<option key={contact.Id} value={contact.Id}>
+              {contact.name_c} - {contact.company_c}
             </option>
           ))}
         </Select>

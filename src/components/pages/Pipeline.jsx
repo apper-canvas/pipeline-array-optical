@@ -113,13 +113,13 @@ const Pipeline = () => {
     }
   };
 
-  const calculatePipelineStats = () => {
+const calculatePipelineStats = () => {
     const stats = {
       totalDeals: deals.length,
-      totalValue: deals.reduce((sum, deal) => sum + (deal.value || 0), 0),
+      totalValue: deals.reduce((sum, deal) => sum + (deal.value_c || 0), 0),
       avgDealSize: 0,
-      closedWon: deals.filter(deal => deal.stage === "Closed Won").length,
-      closedLost: deals.filter(deal => deal.stage === "Closed Lost").length
+      closedWon: deals.filter(deal => deal.stage_c === "Closed Won").length,
+      closedLost: deals.filter(deal => deal.stage_c === "Closed Lost").length
     };
     
     stats.avgDealSize = stats.totalDeals > 0 ? stats.totalValue / stats.totalDeals : 0;
@@ -230,7 +230,7 @@ const Pipeline = () => {
       </main>
 
       {/* Modals */}
-      <Modal
+<Modal
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
         title="Add New Deal"
@@ -268,7 +268,7 @@ const Pipeline = () => {
             Delete Deal
           </h3>
           <p className="text-gray-600 mb-6">
-            Are you sure you want to delete "{selectedDeal?.name}"? This action cannot be undone.
+            Are you sure you want to delete "{selectedDeal?.name_c}"? This action cannot be undone.
           </p>
           <div className="flex justify-center space-x-3">
             <Button

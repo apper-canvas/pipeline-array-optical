@@ -15,7 +15,7 @@ const PipelineBoard = ({
   const [draggedDeal, setDraggedDeal] = useState(null);
   const [dragOverColumn, setDragOverColumn] = useState(null);
 
-  const stages = [
+const stages = [
     { name: "Lead", color: "bg-gray-100", deals: [] },
     { name: "Qualified", color: "bg-blue-100", deals: [] },
     { name: "Proposal", color: "bg-yellow-100", deals: [] },
@@ -27,7 +27,7 @@ const PipelineBoard = ({
   // Group deals by stage
   const dealsGrouped = stages.map(stage => ({
     ...stage,
-    deals: deals.filter(deal => deal.stage === stage.name)
+    deals: deals.filter(deal => deal.stage_c === stage.name)
   }));
 
   const handleDragStart = (e, deal) => {
@@ -60,9 +60,9 @@ const PipelineBoard = ({
   };
 
   const handleDrop = async (e, targetStage) => {
-    e.preventDefault();
+e.preventDefault();
     
-    if (!draggedDeal || draggedDeal.stage === targetStage) {
+    if (!draggedDeal || draggedDeal.stage_c === targetStage) {
       setDraggedDeal(null);
       setDragOverColumn(null);
       return;
@@ -71,8 +71,7 @@ const PipelineBoard = ({
     try {
       await onDealUpdate(draggedDeal.Id, { 
         ...draggedDeal, 
-        stage: targetStage,
-        updatedAt: new Date().toISOString()
+        stage_c: targetStage
       });
     } catch (error) {
       console.error("Error updating deal:", error);
@@ -82,12 +81,14 @@ const PipelineBoard = ({
     }
   };
 
-  const getContactForDeal = (dealContactId) => {
-    return contacts.find(contact => contact.Id === parseInt(dealContactId));
+const getContactForDeal = (dealContactId) => {
+    // Handle lookup field - dealContactId could be integer or object with Id
+    const contactId = typeof dealContactId === 'object' ? dealContactId.Id : dealContactId;
+    return contacts.find(contact => contact.Id === parseInt(contactId));
   };
 
   const calculateStageValue = (stageDeals) => {
-    return stageDeals.reduce((sum, deal) => sum + (deal.value || 0), 0);
+    return stageDeals.reduce((sum, deal) => sum + (deal.value_c || 0), 0);
   };
 
   const formatCurrency = (amount) => {
@@ -143,11 +144,11 @@ const PipelineBoard = ({
             {/* Deals List */}
             <div className="space-y-3">
               <AnimatePresence>
-                {stage.deals.map((deal) => (
+{stage.deals.map((deal) => (
                   <DealCard
                     key={deal.Id}
                     deal={deal}
-                    contact={getContactForDeal(deal.contactId)}
+                    contact={getContactForDeal(deal.contact_id_c)}
                     onDragStart={handleDragStart}
                     onDragEnd={handleDragEnd}
                     onEdit={onEditDeal}
