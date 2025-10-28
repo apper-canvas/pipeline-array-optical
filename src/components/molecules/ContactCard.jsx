@@ -19,14 +19,14 @@ const ContactCard = ({ contact, onClick, onEdit, onDelete }) => {
         <div className="flex items-center space-x-4 mb-4">
           <Avatar
             src={contact.photoUrl}
-            name={contact.name}
+name={contact.name_c}
             size="lg"
           />
           <div className="flex-1 min-w-0">
             <h3 className="text-lg font-semibold text-gray-900 truncate">
               {contact.name}
             </h3>
-            <p className="text-sm text-gray-600 truncate">{contact.company}</p>
+<p className="text-sm text-gray-600 truncate">{contact.company_c}</p>
           </div>
           <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex space-x-1">
             <Button
@@ -57,24 +57,24 @@ const ContactCard = ({ contact, onClick, onEdit, onDelete }) => {
         <div className="space-y-2 mb-4">
           <div className="flex items-center text-sm text-gray-600">
             <ApperIcon name="Mail" className="w-4 h-4 mr-2 text-gray-400" />
-            <span className="truncate">{contact.email}</span>
+<span className="truncate">{contact.email_c}</span>
           </div>
           <div className="flex items-center text-sm text-gray-600">
             <ApperIcon name="Phone" className="w-4 h-4 mr-2 text-gray-400" />
-            <span>{contact.phone}</span>
+<span>{contact.phone_c}</span>
           </div>
         </div>
 
-        {contact.tags && contact.tags.length > 0 && (
+{contact.tags_c && contact.tags_c.split(',').map(t => t.trim()).length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {contact.tags.slice(0, 3).map((tag, index) => (
+            {contact.tags_c.split(',').map(t => t.trim()).slice(0, 3).map((tag, index) => (
               <Badge key={index} variant="primary" size="sm">
                 {tag}
               </Badge>
             ))}
-            {contact.tags.length > 3 && (
+            {contact.tags_c.split(',').map(t => t.trim()).length > 3 && (
               <Badge variant="default" size="sm">
-                +{contact.tags.length - 3}
+                +{contact.tags_c.split(',').map(t => t.trim()).length - 3}
               </Badge>
             )}
           </div>
