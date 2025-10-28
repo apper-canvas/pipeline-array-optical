@@ -62,13 +62,25 @@ export default function Root() {
     navigate(redirectUrl, { replace: true });
   }, [isInitialized, user, location.pathname, location.search, navigate]);
 
-  const initializeAuth = async () => {
+const initializeAuth = async () => {
     try {
-      // Wait for SDK to load and get client
+      // Wait for SDK to be fully loaded with polling mechanism
+      const sdkReady = await waitForSDK();
+      
+      if (!sdkReady) {
+        console.error('ApperSDK failed to load after multiple attempts');
+        navigate('/error?message=' + encodeURIComponent('Failed to load authentication service. Please refresh the page or check your internet connection.'));
+        dispatch(clearUser());
+        handleAuthComplete();
+        return;
+      }
+
+      // Get client after SDK is confirmed ready
       const apperClient = await getApperClient();
 
       if (!apperClient || !window.ApperSDK) {
-        console.error('Failed to initialize ApperSDK or ApperClient');
+        console.error('Failed to initialize ApperClient');
+        navigate('/error?message=' + encodeURIComponent('Authentication service could not be initialized. Please refresh the page.'));
         dispatch(clearUser());
         handleAuthComplete();
         return;
@@ -86,9 +98,32 @@ export default function Root() {
 
     } catch (error) {
       console.error('Failed to initialize authentication:', error);
+      navigate('/error?message=' + encodeURIComponent('An unexpected error occurred during authentication setup. Please refresh the page.'));
       dispatch(clearUser());
       handleAuthComplete();
     }
+  };
+
+  // Helper function to wait for SDK to be fully loaded
+  const waitForSDK = () => {
+    return new Promise((resolve) => {
+      let attempts = 0;
+      const maxAttempts = 10;
+      const checkInterval = 300;
+
+      const checkSDK = () => {
+        if (window.ApperSDK && window.ApperSDK.ApperClient && window.ApperSDK.ApperUI) {
+          resolve(true);
+        } else if (attempts >= maxAttempts) {
+          resolve(false);
+        } else {
+          attempts++;
+          setTimeout(checkSDK, checkInterval);
+        }
+      };
+
+      checkSDK();
+    });
   };
 
   const handleAuthSuccess = (user) => {

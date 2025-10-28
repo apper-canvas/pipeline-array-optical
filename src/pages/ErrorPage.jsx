@@ -4,6 +4,10 @@ const ErrorPage = () => {
   const [searchParams] = useSearchParams();
   const errorMessage = searchParams.get('message') || 'An error occurred';
   
+  // Check if this is an SDK-related error
+  const isSDKError = errorMessage.toLowerCase().includes('authentication service') || 
+                     errorMessage.toLowerCase().includes('sdk');
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg text-center">
