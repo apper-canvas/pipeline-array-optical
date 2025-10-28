@@ -67,7 +67,7 @@ export const contactsService = {
     }
   },
 
-async create(contactData) {
+  async create(contactData) {
     try {
       const apperClient = getApperClient();
       
@@ -100,34 +100,7 @@ async create(contactData) {
           throw new Error(failed[0].message || "Failed to create contact");
         }
         
-        const createdContact = successful[0].data;
-        
-        // Sync to CompanyHub asynchronously (non-blocking)
-        try {
-          const { ApperClient } = window.ApperSDK;
-          const apperClientForEdge = new ApperClient({
-            apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
-            apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
-          });
-          
-          const syncResult = await apperClientForEdge.functions.invoke(
-            import.meta.env.VITE_SYNC_CONTACT_TO_COMPANYHUB,
-            {
-              body: JSON.stringify({ contact: createdContact }),
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            }
-          );
-          
-          if (!syncResult.success) {
-            console.info(`apper_info: Got an error in this function: ${import.meta.env.VITE_SYNC_CONTACT_TO_COMPANYHUB}. The response body is: ${JSON.stringify(syncResult)}.`);
-          }
-        } catch (syncError) {
-          console.info(`apper_info: Got this error in this function: ${import.meta.env.VITE_SYNC_CONTACT_TO_COMPANYHUB}. The error is: ${syncError.message}`);
-        }
-        
-        return createdContact;
+        return successful[0].data;
       }
 
       throw new Error("Unexpected response format");
