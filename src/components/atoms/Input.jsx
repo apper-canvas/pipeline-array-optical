@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import { cn } from "@/utils/cn";
 
-const Input = forwardRef(({ className, type = "text", label, error, ...props }, ref) => {
+const Input = forwardRef(({ className, type = "text", label, error, value = "", ...props }, ref) => {
   return (
     <div className="w-full">
       {label && (
@@ -17,6 +17,7 @@ const Input = forwardRef(({ className, type = "text", label, error, ...props }, 
           error && "border-red-300 focus:ring-red-500",
           className
         )}
+value={value}
         {...props}
       />
       {error && (
