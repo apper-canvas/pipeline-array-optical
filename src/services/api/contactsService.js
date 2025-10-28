@@ -67,7 +67,7 @@ export const contactsService = {
     }
   },
 
-  async create(contactData) {
+async create(contactData) {
     try {
       const apperClient = getApperClient();
       
@@ -80,7 +80,8 @@ export const contactsService = {
           company_c: contactData.company_c || "",
           tags_c: contactData.tags_c || "",
           notes_c: contactData.notes_c || "",
-          photo_url_c: contactData.photo_url_c || ""
+          photo_url_c: contactData.photo_url_c || "",
+          science_marks_c: contactData.science_marks_c ? parseInt(contactData.science_marks_c) : null
         }]
       };
 
@@ -100,7 +101,41 @@ export const contactsService = {
           throw new Error(failed[0].message || "Failed to create contact");
         }
         
-        return successful[0].data;
+        const createdContact = successful[0].data;
+
+        // Invoke Edge function to sync to CompanyHub if science_marks_c > 60
+        try {
+          const { ApperClient } = window.ApperSDK;
+          const edgeFunctionClient = new ApperClient({
+            apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+            apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+          });
+
+          const syncResult = await edgeFunctionClient.functions.invoke(
+            import.meta.env.VITE_SYNC_CONTACT_TO_COMPANYHUB,
+            {
+              body: JSON.stringify({
+                contactId: createdContact.Id,
+                name: createdContact.name_c,
+                email: createdContact.email_c,
+                phone: createdContact.phone_c,
+                company: createdContact.company_c,
+                science_marks_c: createdContact.science_marks_c
+              }),
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+
+          if (!syncResult.success) {
+            console.info(`apper_info: Got an error in this function: ${import.meta.env.VITE_SYNC_CONTACT_TO_COMPANYHUB}. The response body is: ${JSON.stringify(syncResult)}.`);
+          }
+        } catch (edgeFunctionError) {
+          console.info(`apper_info: Got this error in this function: ${import.meta.env.VITE_SYNC_CONTACT_TO_COMPANYHUB}. The error is: ${edgeFunctionError.message}`);
+        }
+
+        return createdContact;
       }
 
       throw new Error("Unexpected response format");
