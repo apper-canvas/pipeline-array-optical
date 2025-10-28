@@ -10,7 +10,8 @@ class ApperClientSingleton {
 
   getInstance() {
     // Return cached instance if exists
-    if (this._client) {
+// Return cached instance if exists and SDK is available
+    if (this._client && window.ApperSDK) {
       return this._client;
     }
 
@@ -28,6 +29,12 @@ class ApperClientSingleton {
     try {
       this._isInitializing = true;
       
+// Verify SDK is fully loaded before accessing ApperClient
+      if (!window.ApperSDK || !window.ApperSDK.ApperClient) {
+        console.warn('ApperSDK not fully loaded yet');
+        return null;
+      }
+
       const { ApperClient } = window.ApperSDK;
       const projectId = import.meta.env.VITE_APPER_PROJECT_ID;
       const publicKey = import.meta.env.VITE_APPER_PUBLIC_KEY;
@@ -37,11 +44,13 @@ class ApperClientSingleton {
         return null;
       }
 
+// Create client only after SDK verification passes
       this._client = new ApperClient({
         apperProjectId: projectId,
         apperPublicKey: publicKey,
       });
 
+      console.info('ApperClient initialized successfully');
       return this._client;
     } catch (error) {
       console.error('Failed to initialize ApperClient:', error);
@@ -68,10 +77,11 @@ const getSingleton = () => {
   return _singletonInstance;
 };
 
-// Main export
+// Main export - returns null if SDK not ready, allowing services to retry
 export const getApperClient = () => getSingleton().getInstance();
 
 // Alternative exports
+// Alternative exports for flexibility
 export const apperClientSingleton = {
   getInstance: () => getSingleton().getInstance(),
   reset: () => getSingleton().reset(),
