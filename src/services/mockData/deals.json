@@ -1,0 +1,122 @@
+[
+  {
+    "Id": 1,
+    "name": "TechFlow Enterprise License",
+    "contactId": 1,
+    "value": 85000,
+    "stage": "Proposal",
+    "probability": 75,
+    "expectedCloseDate": "2024-02-15",
+    "notes": "Large enterprise deal for 500 user licenses. Need to address security concerns.",
+    "createdAt": "2024-01-20T14:15:00Z",
+    "updatedAt": "2024-01-25T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "name": "InnovateCorp Starter Package",
+    "contactId": 2,
+    "value": 15000,
+    "stage": "Qualified",
+    "probability": 60,
+    "expectedCloseDate": "2024-02-28",
+    "notes": "Startup looking for cost-effective solution. Price sensitive but committed.",
+    "createdAt": "2024-01-22T11:30:00Z",
+    "updatedAt": "2024-01-26T09:15:00Z"
+  },
+  {
+    "Id": 3,
+    "name": "Bright Future Marketing Suite",
+    "contactId": 3,
+    "value": 25000,
+    "stage": "Negotiation",
+    "probability": 85,
+    "expectedCloseDate": "2024-02-10",
+    "notes": "Ready to move forward. Negotiating final terms and implementation timeline.",
+    "createdAt": "2024-01-25T09:20:00Z",
+    "updatedAt": "2024-01-28T14:45:00Z"
+  },
+  {
+    "Id": 4,
+    "name": "MegaCorp Evaluation",
+    "contactId": 4,
+    "value": 120000,
+    "stage": "Lead",
+    "probability": 25,
+    "expectedCloseDate": "2024-03-30",
+    "notes": "Early stage opportunity. Still in evaluation phase with multiple vendors.",
+    "createdAt": "2024-01-23T10:45:00Z",
+    "updatedAt": "2024-01-23T10:45:00Z"
+  },
+  {
+    "Id": 5,
+    "name": "Digital Dynamo Creative Tools",
+    "contactId": 5,
+    "value": 35000,
+    "stage": "Proposal",
+    "probability": 80,
+    "expectedCloseDate": "2024-02-20",
+    "notes": "Creative agency needs collaborative design tools. Strong fit for our platform.",
+    "createdAt": "2024-01-26T15:10:00Z",
+    "updatedAt": "2024-01-28T11:20:00Z"
+  },
+  {
+    "Id": 6,
+    "name": "Finance Plus Analytics",
+    "contactId": 6,
+    "value": 18000,
+    "stage": "Qualified",
+    "probability": 65,
+    "expectedCloseDate": "2024-03-15",
+    "notes": "CFO wants detailed ROI metrics before proceeding. Preparing business case.",
+    "createdAt": "2024-01-24T12:35:00Z",
+    "updatedAt": "2024-01-27T16:50:00Z"
+  },
+  {
+    "Id": 7,
+    "name": "HealthTech Compliance Suite",
+    "contactId": 7,
+    "value": 45000,
+    "stage": "Closed Won",
+    "probability": 100,
+    "expectedCloseDate": "2024-01-30",
+    "notes": "Successfully closed! HIPAA compliant solution for healthcare operations.",
+    "createdAt": "2024-01-27T16:40:00Z",
+    "updatedAt": "2024-01-30T13:25:00Z"
+  },
+  {
+    "Id": 8,
+    "name": "Retail Genius Integration",
+    "contactId": 8,
+    "value": 22000,
+    "stage": "Negotiation",
+    "probability": 70,
+    "expectedCloseDate": "2024-02-25",
+    "notes": "E-commerce analytics integration. Working through technical requirements.",
+    "createdAt": "2024-01-28T14:25:00Z",
+    "updatedAt": "2024-01-29T10:15:00Z"
+  },
+  {
+    "Id": 9,
+    "name": "TechFlow Additional Licenses",
+    "contactId": 1,
+    "value": 32000,
+    "stage": "Lead",
+    "probability": 50,
+    "expectedCloseDate": "2024-04-15",
+    "notes": "Expansion opportunity after main deal closes. Additional 200 licenses.",
+    "createdAt": "2024-01-29T09:30:00Z",
+    "updatedAt": "2024-01-29T09:30:00Z"
+  },
+  {
+    "Id": 10,
+    "name": "Lost Opportunity - Budget Constraints",
+    "contactId": 4,
+    "value": 50000,
+    "stage": "Closed Lost",
+    "probability": 0,
+    "expectedCloseDate": "2024-01-15",
+    "notes": "Lost due to budget freeze. Marked for follow-up in Q3 2024.",
+    "createdAt": "2024-01-10T14:20:00Z",
+    "updatedAt": "2024-01-15T16:30:00Z"
+  }
+]
